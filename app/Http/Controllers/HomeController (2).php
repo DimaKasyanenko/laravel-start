@@ -9,7 +9,7 @@ use App\Models\User;
 
 class HomeController extends Controller
 {
-    public function __invoke()
+    public function index()
     {
 
 

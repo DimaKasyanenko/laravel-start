@@ -4,7 +4,10 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -49,8 +52,23 @@ class User extends Authenticatable
         return $this->hasOne(Article::class)->latestOfMany();
     }
 
+    public function articles(): HasMany
+    {
+        return $this->HasMany(Article::class);
+    }
+
     public function profile(): HasOne
     {
         return $this->hasOne(UserProfile::class);
+    }
+
+    public function tags(): HasManyThrough
+    {
+        return $this->through('articles')->has('tags');
+    }
+
+    public function tag(): HasOneThrough
+    {
+        return $this->through('articles')->has('tag');
     }
 }
